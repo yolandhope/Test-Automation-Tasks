@@ -3,12 +3,8 @@
 
 package testSuites;
 
-//import base.BaseTestGoogle;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import pages.GoogleHomePage;
-//import pages.HerokuaPage;
-import pages.ResultedPage;
-import pages.SearchResults;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 //import static org.testng.Assert.assertEquals;
 
@@ -22,7 +18,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+//import base.BaseTestGoogle;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.ous.jtoml.ParseException;
+import pages.GoogleHomePage;
+//import pages.HerokuaPage;
+import pages.ResultedPage;
+import pages.SearchResults;
 import utils.WindowManger;
+
 
 public class TestGoogleClass {
 
@@ -32,6 +37,7 @@ public class TestGoogleClass {
 	ResultedPage page;
 	
 	WindowManger windowManger;
+	ReadJason readJason;
 
 	// Task1
 
@@ -57,11 +63,12 @@ public class TestGoogleClass {
 	// Task 3
 	@Test
 
-	public void checkThatFirstResult() {
-
-		home.searchForQuery("Selenium WebDriver");
+	public void checkThatFirstResult() throws FileNotFoundException, ParseException, IOException, Exception {
+		
+		readJason =new ReadJason();
+		home.searchForQuery(readJason.readFromJason("inputData"));
 		var first_result_text = search.get_first_result(1);
-		Assert.assertEquals(first_result_text, "Selenium - Web Browser Automation",
+		Assert.assertEquals(first_result_text, readJason.readFromJason("Expected"),
 				"Alert first result text is not right");
 
 	}
